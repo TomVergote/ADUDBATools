@@ -1,0 +1,27 @@
+static void EnableSQLTrace(Args _args)
+{
+    boolean     enable      = true;
+    UserInfo    userInfo;
+
+    #LOCALMACRO.FLAG_SQLTrace                       ( 1 << 8 ) #ENDMACRO
+    #LOCALMACRO.FLAG_TraceInfoQueryTable            ( 1 << 11 ) #ENDMACRO
+    ;
+
+    ttsbegin;
+    while select forupdate userInfo
+    {
+        if(enable)
+        {
+            userInfo.DebugInfo      = userInfo.DebugInfo | #FLAG_SQLTrace;
+            userInfo.TraceInfo      = userInfo.TraceInfo | #FLAG_TraceInfoQueryTable;
+            userInfo.querytimeLimit = 1000;
+        }
+        else
+        {
+            userInfo.DebugInfo      = userInfo.DebugInfo ^ #FLAG_SQLTrace;
+            userInfo.TraceInfo      = userInfo.TraceInfo ^ #FLAG_TraceInfoQueryTable;
+        }
+        userInfo.update();
+    }
+    ttscommit;
+}
