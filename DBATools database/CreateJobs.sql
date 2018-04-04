@@ -188,7 +188,7 @@ EXEC @ReturnCode =  msdb.dbo.sp_add_job @job_name=N'[DBA] Add Raw data',
 		@delete_level=0, 
 		@description=N'No description available.', 
 		@category_name=N'[Uncategorized (Local)]', 
-		@owner_login_name=N'BELTRAMI\adultima', @job_id = @jobId OUTPUT
+		@owner_login_name=N'sa', @job_id = @jobId OUTPUT
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 /****** Object:  Step [Add raw data]    Script Date: 21/02/2018 10:29:37 ******/
 EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'Add raw data', 
